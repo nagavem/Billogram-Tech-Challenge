@@ -7,6 +7,7 @@ from fastapi import FastAPI,Form
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
+from psycopg2.extensions import AsIs
 
 
 #Databaseconnection
@@ -65,16 +66,32 @@ async def generate_discount(count: int = Form(...), brand_name: str = Form(...))
     cursor.execute(brands,(discounts,brand_name),)
     conn.commit()        
 
-@app.get("/show_discounts")
+@app.get("/show_discounts/")
 async def display_discount(brand_name: str = Form(...)):
     print(brand_name)
-    user = 'select discount_codes from "Brands" where brand_name="billogram"'
-    #print(user)
-    #cursor.execute(user,(brand_name),)
+   # user = 'SELECT discount_codes FROM Brands'
+    
+    user = 'select * from "Brands" where brand_name = %s'
+    test = (brand_name,)
+    #user = "select * from information_schema.tables;"
+    cursor.execute(user,[test],)
+    #cursor.execute(user,)
+    return cursor.fetchall()[0]['discount_codes'][0]
+
+
+
+
+
+
+
+
+
+
+"""
     cursor.execute(user,)
     rows = cursor.fetchone()
     for row in rows:
         disc_result = row[0]
     print(disc_result)
-
+ """
 
