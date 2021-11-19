@@ -26,35 +26,10 @@ while True:
         time.sleep(2)
 
 
-''' cursor.execute("""SELECT table_name FROM information_schema.tables
-       WHERE table_schema = 'public'""")
-for table in cursor.fetchall():
-    print(table)  '''
-
-#cursor.execute("SELECT * FROM public.{}".format("Brands"))
-''' cursor.execute('SELECT * FROM "Brands"')
-row = cursor.fetchall()
-while row is not None:
-    print(row)  '''
-
-''' store = "billogram"
-test = 'select discount_codes FROM "Brands" WHERE brand_name = %s' 
-cursor.execute(test,store,) '''
-
+#FastAPI instance
 app = FastAPI()
 
-
-@app.get("/")
-async def read_root():
-    return {"message": "World!!!24"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
-
-#count: int = Form(...), brand_name: str = Form(...)
-
+# Endpoint for generating discount codes
 @app.post("/discount_code/")
 async def generate_discount(count: int = Form(...), brand_name: str = Form(...)):
     print(count,brand_name) 
@@ -66,16 +41,13 @@ async def generate_discount(count: int = Form(...), brand_name: str = Form(...))
     cursor.execute(brands,(discounts,brand_name),)
     conn.commit()        
 
+#Endpoint to retrieve the code    
 @app.get("/show_discounts/")
 async def display_discount(brand_name: str = Form(...)):
     print(brand_name)
-   # user = 'SELECT discount_codes FROM Brands'
-    
     user = 'select * from "Brands" where brand_name = %s'
     test = (brand_name,)
-    #user = "select * from information_schema.tables;"
     cursor.execute(user,[test],)
-    #cursor.execute(user,)
     return cursor.fetchall()[0]['discount_codes'][0]
 
 
@@ -87,11 +59,4 @@ async def display_discount(brand_name: str = Form(...)):
 
 
 
-"""
-    cursor.execute(user,)
-    rows = cursor.fetchone()
-    for row in rows:
-        disc_result = row[0]
-    print(disc_result)
- """
 
