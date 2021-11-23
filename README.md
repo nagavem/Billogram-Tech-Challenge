@@ -22,8 +22,6 @@ The database is hosted locally on postgreSQL and is a simple one comprising of t
 The following code in apllication.py shows how database connection was established following which cursor was used in combination with python to write and execute queries in code.
 
 
-:
-
 ```
 while True:
     try :
@@ -57,7 +55,7 @@ FastAPI was chosen as the API framework due to its support of asynchronous code,
 **PostGreSQL**:
 
 Due to the structured nature of the data for the given context a relational database was the chosen approach.
-PostgreSQL is usually the preferred dbms system chosen for production and that is why it is used in this project. Additionally it supports ACID transactions robustly and has a vast community making it easy to gain support in almost all areas.
+PostgreSQL is usually a popular choice especially for production environments and has been chosen for this project. Additionally it supports ACID transactions robustly and has a vast community making it easy to gain support in almost all areas.
 
 **Postman**
 
